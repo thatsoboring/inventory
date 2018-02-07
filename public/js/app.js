@@ -47275,7 +47275,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47286,8 +47286,10 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LocationModalForm_vue__ = __webpack_require__(104);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LocationModalForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__LocationModalForm_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_crip_vue_notice__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_crip_vue_notice___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_crip_vue_notice__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__LocationModalForm_vue__ = __webpack_require__(104);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__LocationModalForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__LocationModalForm_vue__);
 //
 //
 //
@@ -47308,22 +47310,61 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['baseUrl'],
     components: {
-        'location-modal-form': __WEBPACK_IMPORTED_MODULE_0__LocationModalForm_vue___default.a
+        'location-modal-form': __WEBPACK_IMPORTED_MODULE_1__LocationModalForm_vue___default.a
     },
     data: function data() {
         return {
-            showModal: false
+            showModal: false,
+            location: {
+                description: ''
+            },
+            formErrors: {}
         };
     },
 
     methods: {
+        notification: function notification(param) {
+            this.$notice[param.notice]({
+                title: param.title,
+                description: param.description,
+                onClose: function onClose() {}
+            });
+        },
+        clearInputs: function clearInputs() {
+            this.location = {
+                description: ''
+            };
+            this.formErrors = {};
+        },
         openModal: function openModal(status) {
             this.showModal = status;
+        },
+        submitForm: function submitForm(location) {
+            var _this = this;
+
+            axios.post(this.baseUrl + "/location", location).then(function (response) {
+                var args = {
+                    notice: 'success',
+                    title: 'Successfully Added',
+                    description: location.description + "'s successfully added!"
+                };
+                _this.notification(args);
+                _this.clearInputs();
+            }).catch(function (error) {
+                var errors = error.response.data.errors;
+                _this.formErrors = errors;
+            });
         }
     }
 });
@@ -47469,9 +47510,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['showModal', 'isUpdate', 'formErrors'],
+    props: ['showModal', 'isUpdate', 'formErrors', 'location'],
     methods: {
-        closeModal: function closeModal() {}
+        closeModal: function closeModal() {
+            this.$emit('close-modal');
+        },
+        submitLocation: function submitLocation() {
+            this.$emit('submit-form', this.location);
+        }
     }
 });
 
@@ -47529,7 +47575,7 @@ var render = function() {
                           on: {
                             submit: function($event) {
                               $event.preventDefault()
-                              _vm.submitItem($event)
+                              _vm.submitLocation($event)
                             }
                           }
                         },
@@ -47581,7 +47627,7 @@ var render = function() {
                                   }
                                 }),
                                 _vm._v(" "),
-                                _vm.formErrors.code
+                                _vm.formErrors.description
                                   ? _c("span", { staticClass: "help-block" }, [
                                       _c("strong", [
                                         _vm._v(
@@ -47609,7 +47655,7 @@ var render = function() {
                                 staticClass: "btn btn-primary",
                                 attrs: { type: "submit" }
                               },
-                              [_vm._v("Add Item")]
+                              [_vm._v("Add Location")]
                             ),
                             _vm._v(" "),
                             _c(
@@ -47626,7 +47672,7 @@ var render = function() {
                                 staticClass: "btn btn-success",
                                 attrs: { type: "submit" }
                               },
-                              [_vm._v("Update Item")]
+                              [_vm._v("Update Location")]
                             ),
                             _vm._v(" "),
                             _c(
@@ -47708,7 +47754,19 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("location-modal-form", { attrs: { showModal: _vm.showModal } })
+      _c("location-modal-form", {
+        attrs: {
+          showModal: _vm.showModal,
+          formErrors: _vm.formErrors,
+          location: _vm.location
+        },
+        on: {
+          "close-modal": function($event) {
+            _vm.openModal(false)
+          },
+          "submit-form": _vm.submitForm
+        }
+      })
     ],
     1
   )

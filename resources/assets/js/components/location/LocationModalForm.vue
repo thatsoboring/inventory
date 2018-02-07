@@ -13,21 +13,21 @@
                                 <h4 class="modal-title" v-if="isUpdate">Update Location</h4>
                             </div>
                             <div class="modal-body">
-                                <form method="POST" class="form-horizontal" @submit.prevent="submitItem">
+                                <form method="POST" class="form-horizontal" @submit.prevent="submitLocation">
 
                                     <div class="form-group" v-bind:class="{'has-error': formErrors.description }">
                                         <label for="description" class="col-md-4 control-label">Location:</label>
                                         <div class="col-md-6">
                                             <input type="text" name="description" id="description" class="form-control" v-model="location.description">
-                                            <span class="help-block" v-if="formErrors.code">
+                                            <span class="help-block" v-if="formErrors.description">
                                                 <strong>{{ formErrors.description[0] }}</strong>
                                             </span>
                                         </div>
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary" v-show="!isUpdate">Add Item</button>
-                                        <button type="submit" class="btn btn-success" v-show="isUpdate">Update Item</button>
+                                        <button type="submit" class="btn btn-primary" v-show="!isUpdate">Add Location</button>
+                                        <button type="submit" class="btn btn-success" v-show="isUpdate">Update Location</button>
                                         <button type="button" class="btn btn-default" @click="closeModal">Close</button>
                                     </div>
                                 </form>
@@ -42,10 +42,13 @@
 
 <script>
     export default{
-        props:['showModal', 'isUpdate', 'formErrors'],
+        props:['showModal', 'isUpdate', 'formErrors','location'],
         methods:{
             closeModal(){
-
+                this.$emit('close-modal');
+            },
+            submitLocation(){
+                this.$emit('submit-form', this.location);
             }
         }
     }

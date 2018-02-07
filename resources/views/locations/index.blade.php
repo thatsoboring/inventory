@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <location-view></location-view>
+    <location-view
+        base-url="{{ url('/') }}"
+    ></location-view>
 @endsection

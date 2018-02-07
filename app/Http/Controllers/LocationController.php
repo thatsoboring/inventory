@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Location;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
@@ -38,7 +39,15 @@ class LocationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'description' => 'required|max:190|unique:locations'
+        ],
+        [
+            'description.required' => 'The location field is required',
+            'description.unique' => 'The location has already been taken'
+        ]);
+
+        Location::create($request->all());
     }
 
     /**
