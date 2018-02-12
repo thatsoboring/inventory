@@ -81,7 +81,15 @@ class LocationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'description' => 'required|max:255|unique:locations,description,'.$id
+        ],
+        [
+            'description.required' => 'The location field is required',
+            'description.unique' => 'The location has already been taken'
+        ]);
+        $location = Location::findOrFail($id);
+        $location->update($request->all());
     }
 
     /**
@@ -93,5 +101,12 @@ class LocationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function get_locations(){
+
+        $locations = Location::orderBy('created_at', 'desc')->paginate(10);
+        
+        return response()->json($locations);
     }
 }

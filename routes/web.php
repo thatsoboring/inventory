@@ -38,6 +38,9 @@ Route::post('/item/restore/{itemID}', 'ItemController@restore');
 Route::any('item/searchItems', 'ItemController@searchItems');
 Route::delete('/item/permanentlyDelete/{itemID}', 'ItemController@permanentlyDelete');
 
+/*Location Routes*/
+Route::get('/location/getLocations', 'LocationController@get_locations');
+
 /*Route Resource*/
 Route::resource('category', 'CategoryController');
 Route::resource('item', 'ItemController');
