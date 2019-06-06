@@ -87,11 +87,11 @@ export default {
         'search-item-form': SearchItemForm
     },
     created(){
-        // axios.get(this.baseUrl+'/item/getCategories')
-        // .then(response => {
-        //     // console.log(response.data)
-        //     this.categories = response.data
-        // });
+        axios.get(this.baseUrl+'/item/getCategories')
+        .then(response => {
+            // console.log(response.data)
+            this.categories = response.data
+        });
     },
     mounted(){
         this.getItems();

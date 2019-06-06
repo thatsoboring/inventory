@@ -20,8 +20,8 @@ class Category extends Model
 
     protected $appends = array('diffForHumansDeletedAt');
 
-    public function getdiffForHumansDeletedAtAttribute()
+    public function getDiffForHumansDeletedAtAttribute()
     {
-        return Carbon::parse($this->attributes['deleted_at'])->diffForHumans();  
+        return Carbon::parse($this->attributes['deleted_at'])->diffForHumans();
     }
 }

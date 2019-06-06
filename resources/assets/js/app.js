@@ -26,6 +26,7 @@ Vue.component('item-trash-view', require('./components/item/ItemTrashView.vue'))
 
 /*Location*/
 Vue.component('location-view', require('./components/location/LocationView.vue'));
+
 const app = new Vue({
     el: '#app'
 });

@@ -125,7 +125,7 @@
                 }else{
                     axios.get(this.baseUrl+'/category/get_categories?page='+this.cats.current_page)
                     .then(response => {
-                        console.log(response.data)
+                        // console.log(response.data)
                         this.cats = response.data;  
                     }).catch(error => {
                     });
@@ -184,7 +184,7 @@
                 }
             },
             show(param){
-                console.log(this.cats);
+                // console.log(this.cats);
                 this.openModal(true)
                 this.clearInputs()
                 this.category.name = param.category.name
